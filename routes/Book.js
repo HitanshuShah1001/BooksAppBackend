@@ -2,7 +2,14 @@ const express = require("express");
 const router = express.Router();
 const BookController = require("../controller/BookController");
 const UserController = require("../controller/Usercontroller");
+const AuthController = require("../controller/Authcontroller");
 
-router.post("/upload", UserController.Bookphotos, BookController.UploadBook);
+router.post(
+  "/upload",
+  AuthController.Protect,
+  UserController.Bookphotos,
+  BookController.UploadBook
+);
+router.get("/", BookController.GetAllBooks);
 
 module.exports = router;

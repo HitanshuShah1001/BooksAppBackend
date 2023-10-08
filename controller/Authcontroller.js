@@ -1,7 +1,10 @@
+const { promisify } = require("util");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const UserUtil = require("../Utils/User");
 const ErrorHandler = require("../controller/Errorcontroller");
+require("dotenv").config();
 
 exports.SignUp = async (req, res) => {
   try {
@@ -15,6 +18,29 @@ exports.SignUp = async (req, res) => {
     UserUtil.createToken(user, 201, res);
   } catch (e) {
     ErrorHandler(501, res, e.message ?? `Internal Server error`);
+  }
+};
+
+exports.Protect = async (req, res, next) => {
+  console.log(req.headers);
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1];
+  }
+  if (!token) {
+    ErrorHandler(401, res, "No token found");
+  } else {
+    const result = await promisify(jwt.verify)(token, process.env.SECRET);
+    const LoggedInUser = await User.findById(result.id);
+    if (!LoggedInUser) {
+      Error(401, res, "No User found");
+    } else {
+      req.user = LoggedInUser;
+      next();
+    }
   }
 };
 

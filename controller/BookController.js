@@ -1,5 +1,5 @@
 const Book = require("../models/Book");
-const User = require("../models/User");
+const GetModelRecords = require("../GetModelFactory/GetModels");
 
 exports.UploadBook = async (req, res) => {
   try {
@@ -9,7 +9,7 @@ exports.UploadBook = async (req, res) => {
         `${req.protocol}://${req.get("host")}/uploads/${file.filename}`
       );
     });
-    const data = { ...req.body, Photos: Photos };
+    const data = { ...req.body, Photos, Owner: req.user };
     const book = await Book.create(data);
     return res.status(200).json({
       status: "Success",
@@ -22,3 +22,5 @@ exports.UploadBook = async (req, res) => {
     console.log(e, "erROR OCCURED");
   }
 };
+
+exports.GetAllBooks = GetModelRecords.getAllRecords(Book);
