@@ -1,5 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
 const AuthController = require("../controller/Authcontroller");
 const UserController = require("../controller/Usercontroller");
 const ErrorController = require("../controller/Errorcontroller");

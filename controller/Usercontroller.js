@@ -23,4 +23,5 @@ const multerFilter = (req, file, cb) => {
 const upload = multer({ storage, fileFilter: multerFilter });
 
 exports.Userphoto = upload.single("ProfilePhoto");
+exports.Bookphotos = upload.array("Photos", 2);
 exports.GetAllUsers = GetModelRecords.getAllRecords(User);

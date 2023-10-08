@@ -14,5 +14,5 @@ const BookSchema = new mongoose.Schema({
   Bought_By: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
-const Book = mongoose.Model("Book", BookSchema);
+const Book = mongoose.model("Book", BookSchema);
 module.exports = Book;
