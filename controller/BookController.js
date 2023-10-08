@@ -1,5 +1,6 @@
 const Book = require("../models/Book");
 const GetModelRecords = require("../GetModelFactory/GetModels");
+const DeleteModelRecords = require("../GetModelFactory/DeleteModelRecords");
 
 exports.UploadBook = async (req, res) => {
   try {
@@ -9,8 +10,10 @@ exports.UploadBook = async (req, res) => {
         `${req.protocol}://${req.get("host")}/uploads/${file.filename}`
       );
     });
-    const data = { ...req.body, Photos, Owner: req.user };
+    const data = { ...req.body, Photos, Owner: req.user, UploadedBy: req.user };
     const book = await Book.create(data);
+    req.user.UploadedBooks.push(book._id);
+    await req.user.save();
     return res.status(200).json({
       status: "Success",
       data: {
@@ -23,4 +26,5 @@ exports.UploadBook = async (req, res) => {
   }
 };
 
-exports.GetAllBooks = GetModelRecords.getAllRecords(Book);
+exports.GetAllBooks = GetModelRecords.GetAllRecords(Book);
+exports.DeleteAllBooks = DeleteModelRecords.DeleteAllRecords(Book);

@@ -4,7 +4,6 @@ const cors = require("cors");
 const morgan = require("morgan");
 require("dotenv").config();
 const UserRouter = require("./routes/User");
-const DeleteRouter = require("./routes/ModelManipulation");
 const BookRouter = require("./routes/Book");
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -35,7 +34,6 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/user/", UserRouter);
-app.use("/delete/", DeleteRouter);
 app.use("/book/", BookRouter);
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

@@ -1,5 +1,6 @@
 const multer = require("multer");
 const GetModelRecords = require("../GetModelFactory/GetModels");
+const DeleteModelRecords = require("../GetModelFactory/DeleteModelRecords");
 const User = require("../models/User");
 
 const storage = multer.diskStorage({
@@ -24,4 +25,5 @@ const upload = multer({ storage, fileFilter: multerFilter });
 
 exports.Userphoto = upload.single("ProfilePhoto");
 exports.Bookphotos = upload.array("Photos");
-exports.GetAllUsers = GetModelRecords.getAllRecords(User);
+exports.GetAllUsers = GetModelRecords.GetAllRecords(User);
+exports.DeleteAllUsers = DeleteModelRecords.DeleteAllRecords(User);

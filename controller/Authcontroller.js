@@ -22,7 +22,6 @@ exports.SignUp = async (req, res) => {
 };
 
 exports.Protect = async (req, res, next) => {
-  console.log(req.headers);
   let token;
   if (
     req.headers.authorization &&

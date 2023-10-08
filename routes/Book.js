@@ -10,6 +10,7 @@ router.post(
   UserController.Bookphotos,
   BookController.UploadBook
 );
-router.get("/", BookController.GetAllBooks);
+router.get("/", AuthController.Protect, BookController.GetAllBooks);
+router.delete("/delete", AuthController.Protect, BookController.DeleteAllBooks);
 
 module.exports = router;

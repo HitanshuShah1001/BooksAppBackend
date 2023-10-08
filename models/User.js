@@ -7,6 +7,12 @@ const UserSchema = new mongoose.Schema({
   Email: { type: String, unique: true },
   Password: { type: String, required: true },
   ProfilePhoto: { type: String },
+  UploadedBooks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
 });
 
 const User = mongoose.model("User", UserSchema);

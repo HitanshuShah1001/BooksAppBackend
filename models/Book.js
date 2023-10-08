@@ -14,6 +14,7 @@ const BookSchema = new mongoose.Schema({
   Is_Bought: { type: Boolean, default: false },
   Bought_By: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   Owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  UploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 const Book = mongoose.model("Book", BookSchema);

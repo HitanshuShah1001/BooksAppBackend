@@ -1,7 +1,6 @@
 const express = require("express");
 const AuthController = require("../controller/Authcontroller");
 const UserController = require("../controller/Usercontroller");
-const ErrorController = require("../controller/Errorcontroller");
 const Utils = require("../Utils/User");
 const router = express.Router();
 
@@ -14,5 +13,6 @@ router.post(
 );
 
 router.post("/login", AuthController.Login);
-router.get("/", UserController.GetAllUsers);
+router.get("/", AuthController.Protect, UserController.GetAllUsers);
+router.delete("/delete", AuthController.Protect, UserController.DeleteAllUsers);
 module.exports = router;
