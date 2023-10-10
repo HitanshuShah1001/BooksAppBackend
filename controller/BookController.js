@@ -26,5 +26,25 @@ exports.UploadBook = async (req, res) => {
   }
 };
 
+exports.AddToCart = async (req, res) => {
+  try {
+    const { user } = req;
+    const { id } = req.params;
+    const book = await Book.findById({ _id: id });
+    book.AddedToCartBy.push(user._id);
+    console.log(book.AddedToCartBy, "Book added to cart by");
+    user.BooksAddedToCart.push(book._id);
+    await Promise.all([book.save(), user.save()]);
+    return res.status(200).json({
+      status: "Success",
+      data: {
+        book,
+        message: `Book added to cart succesfully`,
+      },
+    });
+  } catch (e) {
+    console.log(e, "An error occured");
+  }
+};
 exports.GetAllBooks = GetModelRecords.GetAllRecords(Book);
 exports.DeleteAllBooks = DeleteModelRecords.DeleteAllRecords(Book);

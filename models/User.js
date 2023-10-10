@@ -13,6 +13,18 @@ const UserSchema = new mongoose.Schema({
       ref: "Book",
     },
   ],
+  BooksAddedToCart: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
+  BooksBought: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
 });
 
 const User = mongoose.model("User", UserSchema);

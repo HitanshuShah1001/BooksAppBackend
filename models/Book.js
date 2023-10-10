@@ -15,6 +15,8 @@ const BookSchema = new mongoose.Schema({
   Bought_By: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   Owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   UploadedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  TransactionComplete: { type: Boolean, default: false },
+  AddedToCartBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
 
 const Book = mongoose.model("Book", BookSchema);

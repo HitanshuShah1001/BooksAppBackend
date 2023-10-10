@@ -12,5 +12,6 @@ router.post(
 );
 router.get("/", AuthController.Protect, BookController.GetAllBooks);
 router.delete("/delete", AuthController.Protect, BookController.DeleteAllBooks);
+router.post("/addtocart/:id", AuthController.Protect, BookController.AddToCart);
 
 module.exports = router;
