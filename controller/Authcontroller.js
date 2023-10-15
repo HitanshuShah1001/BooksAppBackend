@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const UserUtil = require("../Utils/User");
 const ErrorHandler = require("../controller/Errorcontroller");
+const Errorcontroller = require("../controller/Errorcontroller");
 require("dotenv").config();
 
 exports.SignUp = async (req, res) => {
@@ -22,24 +23,28 @@ exports.SignUp = async (req, res) => {
 };
 
 exports.Protect = async (req, res, next) => {
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-  }
-  if (!token) {
-    ErrorHandler(401, res, "No token found");
-  } else {
-    const result = await promisify(jwt.verify)(token, process.env.SECRET);
-    const LoggedInUser = await User.findById(result.id);
-    if (!LoggedInUser) {
-      Error(401, res, "No User found");
-    } else {
-      req.user = LoggedInUser;
-      next();
+  try {
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer")
+    ) {
+      token = req.headers.authorization.split(" ")[1];
     }
+    if (!token) {
+      ErrorHandler(401, res, "No token found");
+    } else {
+      const result = await promisify(jwt.verify)(token, process.env.SECRET);
+      const LoggedInUser = await User.findById(result.id);
+      if (!LoggedInUser) {
+        Errorcontroller(401, res, "No User found");
+      } else {
+        req.user = LoggedInUser;
+        next();
+      }
+    }
+  } catch (e) {
+    Errorcontroller(401, res, `Invalid token`);
   }
 };
 
@@ -49,7 +54,11 @@ exports.Login = async (req, res) => {
   if (result) {
     const { Email, Password, ...rest } = body;
     const user = await User.findOne({ Email }).select("+Password");
-    if (!CheckUserExistAndPasswordIsCorrect(user, Password, user.Password)) {
+    if (!user) {
+      return ErrorHandler(404, res, `User does not exist`);
+    }
+    const PasswordIsCorrect = await this.CheckPassword(Password, user.Password);
+    if (!PasswordIsCorrect) {
       return ErrorHandler(401, res, `Incorrect Email or Password`);
     } else {
       UserUtil.createToken(user, 201, res);
@@ -57,8 +66,7 @@ exports.Login = async (req, res) => {
   }
 };
 
-exports.CheckPassword = async (Password, UserPassword) =>
-  await bcrypt.compare(Password, UserPassword);
-
-const CheckUserExistAndPasswordIsCorrect = (user, Password, UserPassword) =>
-  user || this.CheckPassword(Password, UserPassword);
+exports.CheckPassword = async (Password, UserPassword) => {
+  const PasswordIsCorrect = await bcrypt.compare(Password, UserPassword);
+  return PasswordIsCorrect;
+};

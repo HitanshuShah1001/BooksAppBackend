@@ -13,6 +13,12 @@ const UserSchema = new mongoose.Schema({
       ref: "Book",
     },
   ],
+  OwnedBooks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
   BooksAddedToCart: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +31,28 @@ const UserSchema = new mongoose.Schema({
       ref: "Book",
     },
   ],
+  BooksBorrowed: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
+  BooksLent: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
+  BooksSold: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
+  TotalBooksBought: { type: Number, default: 0 },
+  TotalBooksSold: { type: Number, default: 0 },
+  TotalBooksLent: { type: Number, default: 0 },
+  TotalBooksBorrowed: { type: Number, default: 0 },
 });
 
 const User = mongoose.model("User", UserSchema);

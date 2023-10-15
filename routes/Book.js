@@ -10,8 +10,20 @@ router.post(
   UserController.Bookphotos,
   BookController.UploadBook
 );
-router.get("/", AuthController.Protect, BookController.GetAllBooks);
-router.delete("/delete", AuthController.Protect, BookController.DeleteAllBooks);
+router.get("/", BookController.GetAllBooks);
+router.delete("/delete", BookController.DeleteAllBooks);
+router.post(
+  "/requestforborrowingdays/:id",
+  AuthController.Protect,
+  BookController.DaysRequiredToBorrow
+);
 router.post("/addtocart/:id", AuthController.Protect, BookController.AddToCart);
+router.post(
+  "/acceptborrowbookrequest/:id",
+  AuthController.Protect,
+  BookController.AcceptBorrowBookRequest
+);
 
+router.delete("/delete/:id", AuthController.Protect, BookController.Deletebook);
+router.get("/:id", AuthController.Protect, BookController.GetBookWrtUser);
 module.exports = router;

@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const ErrorController = require("../controller/Errorcontroller");
 require("dotenv").config();
 
 exports.CheckEmailPasswordExist = (body) => !body.email || !body.password;

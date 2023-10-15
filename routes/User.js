@@ -13,6 +13,6 @@ router.post(
 );
 
 router.post("/login", AuthController.Login);
-router.get("/", AuthController.Protect, UserController.GetAllUsers);
-router.delete("/delete", AuthController.Protect, UserController.DeleteAllUsers);
+router.get("/", UserController.GetAllUsers);
+router.delete("/delete", UserController.DeleteAllUsers);
 module.exports = router;
