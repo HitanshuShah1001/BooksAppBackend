@@ -25,6 +25,7 @@ exports.SignUp = async (req, res) => {
 exports.Protect = async (req, res, next) => {
   try {
     let token;
+    console.log(req.headers.authorization, "Authorization");
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
@@ -44,6 +45,7 @@ exports.Protect = async (req, res, next) => {
       }
     }
   } catch (e) {
+    console.log(e.message);
     Errorcontroller(401, res, `Invalid token`);
   }
 };

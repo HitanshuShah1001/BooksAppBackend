@@ -5,6 +5,7 @@ const BookSchema = new mongoose.Schema({
   Photos: { type: [String], required: true },
   Type: { type: String, enum: [`lend`, `sell`, `both`], required: true },
   Description: { type: String },
+  Category: { type: String, enum: ["fiction", "non-fiction"] },
   Location: {
     type: [Number],
     validate: { validator: (value) => value.length == 2 },

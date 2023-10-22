@@ -10,7 +10,7 @@ router.post(
   UserController.Bookphotos,
   BookController.UploadBook
 );
-router.get("/", BookController.GetAllBooks);
+router.get("/", AuthController.Protect, BookController.GetAllBooks);
 router.delete("/delete", BookController.DeleteAllBooks);
 router.post(
   "/requestforborrowingdays/:id",
@@ -23,7 +23,11 @@ router.post(
   AuthController.Protect,
   BookController.AcceptBorrowBookRequest
 );
-
+router.post(
+  "/transactioncomplete/:id",
+  AuthController.Protect,
+  BookController.LendingTransactionComplete
+);
 router.delete("/delete/:id", AuthController.Protect, BookController.Deletebook);
-router.get("/:id", AuthController.Protect, BookController.GetBookWrtUser);
+router.get("/owner", AuthController.Protect, BookController.GetBookWrtUser);
 module.exports = router;

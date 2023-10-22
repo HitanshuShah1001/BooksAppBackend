@@ -43,12 +43,32 @@ const UserSchema = new mongoose.Schema({
       ref: "Book",
     },
   ],
+  //BooksBorrowedCurrently and BooksLentCurrently will be for current books that are being borrowed or lent currently.
+  //Books Borrowed and lent will be updated when the transaction is completed and will show a record of the borrowed and returned books
+  //that hae their transaction complete.
+  BooksBorrowedCurrently: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
+  BooksLentCurrently: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
   BooksSold: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Book",
     },
   ],
+  BooksToPickup: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+  BooksToBeSold: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+  BooksToBeLent: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+  BooksToBeBought: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
+  BooksToBeBorrowed: [{ type: mongoose.Schema.Types.ObjectId, ref: "Book" }],
   TotalBooksBought: { type: Number, default: 0 },
   TotalBooksSold: { type: Number, default: 0 },
   TotalBooksLent: { type: Number, default: 0 },
